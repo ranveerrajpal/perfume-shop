@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { apiFetch } from '../api';
 import './ProductPage.css';
 
 function StarRating({ value, onChange }) {
@@ -40,8 +41,8 @@ export default function ProductPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`/api/products/${id}`).then(r => r.json()),
-      fetch(`/api/products/${id}/reviews`).then(r => r.json())
+      apiFetch(`/api/products/${id}`).then(r => r.json()),
+      apiFetch(`/api/products/${id}/reviews`).then(r => r.json())
     ]).then(([prod, revs]) => {
       setProduct(prod);
       setSelectedSize(prod.sizes?.[prod.sizes.length - 1]);
@@ -72,7 +73,7 @@ export default function ProductPage() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/products/${id}/reviews`, {
+      const res = await apiFetch(`/api/products/${id}/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
+import { apiFetch } from '../api';
 import './Home.css';
 
 export default function Home() {
@@ -8,7 +9,7 @@ export default function Home() {
   const [activeFilter, setActiveFilter] = useState('All');
 
   useEffect(() => {
-    fetch('/api/products')
+    apiFetch('/api/products')
       .then(r => r.json())
       .then(data => { setProducts(data); setLoading(false); })
       .catch(() => setLoading(false));
